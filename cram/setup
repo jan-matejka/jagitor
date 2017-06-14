@@ -1,0 +1,16 @@
+# vim: ft=zsh
+
+export PATH="${TESTDIR%/*}/_build/bin:${PATH}"
+FAKEPATH="${CRAMTMP}/${TESTFILE}/path"
+export PATH="${FAKEPATH}:${PATH}"
+mkdir "${FAKEPATH}"
+
+function setup-script {
+  echo '#!/bin/bash' > $2
+  echo "$1" >> $2
+  chmod +x $2
+}
+
+function setup-vim {
+  setup-script "$1" ${FAKEPATH}/vim
+}
