@@ -10,11 +10,20 @@ function fatal {
   exit 1
 }
 
-function f-msg {
-  local msg=$1
-  shift
+function msg {
+  local level=$1
+  local msg=$2
+  shift 2
   msg=$(printf $msg "$@")
-  printf >&2 -- "%s: fatal: %s\n" $SELF $msg
+  printf >&2 -- "%s: %s: %s\n" $SELF $level $msg
+}
+
+function f-msg {
+  msg fatal "$@"
+}
+
+function warning {
+  msg warning "$@"
 }
 
 function f-already-exists {
@@ -62,3 +71,5 @@ function cmd-dispatch {
   check-executable $cmd
   exec $cmd "$@"
 }
+
+${JAGITOR_ERR_EXIT:-false} && set -x

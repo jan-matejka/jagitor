@@ -3,9 +3,11 @@
 SELF="${0##*/}"
 . jagitor-prelude
 
-# man git(1)
-export GIT_WORK_TREE="$(hddb-path git)"
-export GIT_DIR="${GIT_WORK_TREE}/.git"
-export HDDB_VISUAL="${VISUAL:-vim}"
+declare -a args
+zparseopts -K -D -a args x
+(( ${args[(I)-x]} )) && {
+  set -x
+  export JAGITOR_ERR_EXIT=true
+}
 
 cmd-dispatch "$@"

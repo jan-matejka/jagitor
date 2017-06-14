@@ -16,13 +16,30 @@ BMANDIR    = $(BROOTDIR)/man/man1
 
 DIRS = $(BLIBDIR) $(BBINDIR)
 
-CMDS = $(patsubst src/jagitor/%.sh,%,$(shell echo src/jagitor/*))
-MANS = $(patsubst Documentation/%.rst,%.1,$(shell echo Documentation/jagitor*))
+CMDS     = $(patsubst src/jagitor/%.sh,%,$(shell echo src/jagitor/*))
+GIT_CMDS = $(patsubst src/git/%.sh,%,$(shell echo src/git/*))
+MANS     = $(patsubst Documentation/%.rst,%.1,$(shell echo Documentation/{jagitor,git-jg}*))
+
+BUILD_DEPS  =
+BUILD_DEPS += $(BMANDIR)
+BUILD_DEPS += $(BBINDIR)/jagitor
+BUILD_DEPS += $(addprefix $(BBINDIR)/jagitor-,$(CMDS))
+BUILD_DEPS += $(addprefix $(BBINDIR)/git-,$(GIT_CMDS))
+BUILD_DEPS += $(addprefix $(BMANDIR)/,$(MANS))
+
+INSTALL_DEPS += $(MANDIR)
+INSTALL_DEPS += $(BINDIR)/jagitor
+INSTALL_DEPS += $(addprefix $(BINDIR)/jagitor-,$(CMDS))
+INSTALL_DEPS += $(addprefix $(MANDIR)/,$(MANS))
 
 .PHONY: build
-build:  $(BMANDIR) $(BBINDIR)/jagitor $(addprefix $(BBINDIR)/jagitor-,$(CMDS)) $(addprefix $(BMANDIR)/,$(MANS))
+build: $(BUILD_DEPS)
 
 $(BBINDIR)/jagitor-%: src/jagitor/%.sh
+
+	install -m755 -D $< $@
+
+$(BBINDIR)/git-%: src/git/%.sh
 
 	install -m755 -D $< $@
 
@@ -39,7 +56,7 @@ $(BMANDIR)/%.1: Documentation/%.rst
 	rst2man $< $@
 
 .PHONY: install
-install: $(MANDIR) $(BINDIR)/jagitor $(addprefix $(BINDIR)/jagitor-,$(CMDS)) $(addprefix $(MANDIR)/,$(MANS))
+install: $(INSTALL_DEPS)
 
 $(BINDIR)/%:
 
