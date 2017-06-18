@@ -1,7 +1,6 @@
 #! /usr/bin/env zsh
 
 export TESTTMP="$CRAMTMP/$TESTFILE"
-export PATH="${TESTDIR%/*}/_build/bin:${PATH}"
 
 FAKEPATH="$TESTTMP/path"
 mkdir "${FAKEPATH}" || return

@@ -30,7 +30,10 @@ BUILD_DEPS += $(addprefix $(BMANDIR)/,$(MANS))
 INSTALL_DEPS += $(MANDIR)
 INSTALL_DEPS += $(BINDIR)/jagitor
 INSTALL_DEPS += $(addprefix $(BINDIR)/jagitor-,$(CMDS))
+INSTALL_DEPS += $(addprefix $(BINDIR)/git-,$(GIT_CMDS))
 INSTALL_DEPS += $(addprefix $(MANDIR)/,$(MANS))
+
+CHECK_PATH = $(PWD)/$(BROOTDIR)/fakeroot/usr/local/bin:/bin:/usr/bin:/usr/local/bin
 
 .PHONY: build
 build: $(BUILD_DEPS)
@@ -58,9 +61,9 @@ $(BMANDIR)/%.1: Documentation/%.rst
 .PHONY: install
 install: $(INSTALL_DEPS)
 
-$(BINDIR)/%:
+$(BINDIR)/%: $(BBINDIR)/%
 
-	install -m755 $(BBINDIR)/$(@F) $(BINDIR)
+	install -m755 -D $< $@
 
 $(MANDIR):
 
@@ -78,4 +81,6 @@ clean:
 .PHONY: check
 check: build
 
-	cram $(CRAMOPTS) $(CRAM_PATH)
+	mkdir -p $(BROOTDIR)/fakeroot
+	DESTDIR=$(BROOTDIR)/fakeroot $(MAKE) install
+	env -i PATH=$(CHECK_PATH) cram $(CRAMOPTS) $(CRAM_PATH)
