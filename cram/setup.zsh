@@ -22,6 +22,8 @@ function die {
   exit 1
 }
 
+# setup repos with several brances, each in different state for
+# git-jg-status to display
 function setup-repos {
   mkdir $1 || return
   pushd $1 || return
@@ -66,12 +68,32 @@ function setup-repos {
   popd
 }
 
+# setup repos with one acting as local and other remote
+function setup-repos2 {
+  git init local
+  pushd local
+  echo a > a
+  git add a
+  git commit -a -m init
+  popd
+  git clone local remote
+  pushd local
+  echo a > a
+  git commit -a -m wip
+  (( $(git log --oneline | wc -l) != 2 )) && die "setup failed"
+
+  popd
+  pushd remote
+  jagitor fetch ./
+}
+
 function bump-ahead {
   pushd $1
 
   git checkout ahead
-  echo qux >> README
-  git commit -a -m "qux"
+  printf "." >> README
+  git add README
+  git commit -m "bump"
 
   popd
 }
