@@ -12,7 +12,7 @@ A stupid portmanteau of git and janitor
 SYNOPSIS
 ========
 
-  jagitor <command> [<args>]
+  jagitor [-x] <command> [<args>]
 
 DESCRIPTION
 ===========
@@ -23,6 +23,11 @@ repositories by
 * displaying a status of branches on found repos
 
 * providing a simple interface to run the same command on found repos
+
+OPTIONS
+=======
+
+-x    Enable XTRACE shell option for debugging.
 
 COMMANDS
 ========
