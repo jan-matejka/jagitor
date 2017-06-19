@@ -7,7 +7,7 @@ find_args=( -execdir pwd \; )
 
 i=${argv[(ie)--]}
 (( $i <= $# )) && {
-  find_args=( ${argv[$(( $i + 1 )),-1]} )
+  find_args=( ${argv[i + 1,-1]} )
   shift -p $(( $# - $i + 1 ))
 }
 
