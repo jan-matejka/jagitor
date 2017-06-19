@@ -7,7 +7,7 @@ declare -a args
 zparseopts -K -D -a args x
 (( ${args[(I)-x]} )) && {
   set -x
-  export JAGITOR_ERR_EXIT=true
+  export JAGITOR_XTRACE=true
 }
 
 cmd-dispatch "$@"

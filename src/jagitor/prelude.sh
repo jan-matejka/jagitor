@@ -72,4 +72,4 @@ function cmd-dispatch {
   exec $cmd "$@"
 }
 
-${JAGITOR_ERR_EXIT:-false} && set -x
+${JAGITOR_XTRACE:-false} && set -x
