@@ -1,7 +1,7 @@
 unknown command
 ###############
 
-  $ . ${TESTDIR}/setup
+  $ . ${TESTDIR}/setup.zsh
 
   $ jagitor foo
   jagitor: fatal: cannot execute jagitor-foo
