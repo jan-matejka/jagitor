@@ -41,14 +41,14 @@ COMMANDS
 EXAMPLES
 ========
 
-::
+Find all your repos::
 
-  $ jagitor find ~/all-my-repos -- -execdir git fetch --all
+  $ jagitor find ~/all-my-repos
   ./foo
   ./bar
   ./qux/quux
 
-::
+Show status in single repo::
 
   $ cd ~/all-my-repos/foo && git jg status
   ahead   origin/synced        ahead 1
@@ -58,7 +58,7 @@ EXAMPLES
   master  origin/master
   synced  origin/synced
 
-::
+Show status in all the repos::
 
   $ jagitor status ~/all-my-repos
   ./jagitor
@@ -66,6 +66,12 @@ EXAMPLES
 
   ./headdesk-www
   master          hd/master        ahead 2
+
+
+Exec a command in all the repos::
+
+  $ jagitor find ~/all-my-repos -- -execdir git fetch --all
+
 
 For more detailed examples see test cases in ./cram/
 
