@@ -16,9 +16,9 @@ BMANDIR    = $(BROOTDIR)/man/man1
 
 DIRS = $(BLIBDIR) $(BBINDIR)
 
-CMDS     = $(patsubst src/jagitor/%.sh,%,$(shell echo src/jagitor/*))
-GIT_CMDS = $(patsubst src/git/%.sh,%,$(shell echo src/git/*))
-MANS     = $(patsubst Documentation/%.rst,%.1,$(shell echo Documentation/{jagitor,git-jg}*))
+CMDS     = $(patsubst src/jagitor/%.sh,%,$(wildcard src/jagitor/*))
+GIT_CMDS = $(patsubst src/git/%.sh,%,$(wildcard src/git/*))
+MANS     = $(patsubst Documentation/%.rst,%.1,$(wildcard Documentation/{jagitor,git-jg}*))
 
 BUILD_DEPS  =
 BUILD_DEPS += $(BMANDIR)
